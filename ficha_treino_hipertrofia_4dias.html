@@ -1,0 +1,427 @@
+
+<style>
+:root { --accent: #C2410C; --accent-light: #FAECE7; --accent-mid: #D85A30; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+
+.ficha-wrap { padding: 1rem 0 2rem; }
+
+.header-ficha { 
+  display: flex; align-items: center; gap: 16px; 
+  padding: 1rem 1.5rem; 
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-lg);
+  margin-bottom: 1.5rem;
+  border: 0.5px solid var(--color-border-tertiary);
+}
+.header-logo { 
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--accent); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.header-logo i { font-size: 20px; color: #fff; }
+.header-title { font-size: 17px; font-weight: 500; color: var(--color-text-primary); line-height: 1.2; }
+.header-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 2px; }
+.badges { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
+.badge { 
+  font-size: 11px; padding: 3px 10px; border-radius: 999px; font-weight: 500;
+  background: var(--accent-light); color: var(--accent);
+  border: 0.5px solid var(--accent-mid);
+}
+
+.tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+.tab-btn { 
+  padding: 7px 16px; font-size: 13px; font-weight: 500; cursor: pointer;
+  border-radius: var(--border-radius-md);
+  border: 0.5px solid var(--color-border-secondary);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+  transition: all 0.15s;
+}
+.tab-btn:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.tab-btn.active { 
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+
+.day-panel { display: none; }
+.day-panel.active { display: block; }
+
+.day-header { 
+  display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  border-left: 3px solid var(--accent);
+}
+.day-tag { font-size: 11px; font-weight: 500; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; }
+.day-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.day-tip { font-size: 12px; color: var(--color-text-secondary); margin-left: auto; max-width: 200px; text-align: right; line-height: 1.4; }
+
+.table-wrap { overflow-x: auto; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th { 
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary); font-weight: 500;
+  padding: 8px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+tbody tr { border-bottom: 0.5px solid var(--color-border-tertiary); }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--color-background-secondary); }
+tbody td { padding: 10px 12px; color: var(--color-text-primary); vertical-align: top; line-height: 1.4; }
+.ex-name { font-weight: 500; display: block; }
+.ex-obs { font-size: 11px; color: var(--color-text-secondary); display: block; margin-top: 2px; }
+.pill { 
+  display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 500;
+  background: var(--accent-light); color: var(--accent); white-space: nowrap;
+}
+.pill-blue { background: #E6F1FB; color: #185FA5; }
+.num-cell { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.legend { 
+  margin-top: 1rem; padding: 0.75rem 1rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  border: 0.5px solid var(--color-border-tertiary);
+  font-size: 12px; color: var(--color-text-secondary);
+  display: flex; gap: 16px; flex-wrap: wrap;
+}
+.legend strong { color: var(--color-text-primary); font-weight: 500; }
+
+.ask-btn {
+  margin-top: 1.5rem; width: 100%; padding: 10px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary); font-size: 13px;
+  cursor: pointer; transition: all 0.15s;
+}
+.ask-btn:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+</style>
+
+<h2 class="sr-only">Ficha de treino de hipertrofia 4 dias por semana — nível intermediário</h2>
+
+<div class="ficha-wrap">
+  <div class="header-ficha">
+    <div class="header-logo"><i class="ti ti-barbell" aria-hidden="true"></i></div>
+    <div>
+      <div class="header-title">Ficha de Treino — Hipertrofia</div>
+      <div class="header-sub">4 dias / semana · Intermediário · Academia</div>
+    </div>
+    <div class="badges">
+      <span class="badge">Upper/Lower</span>
+      <span class="badge">8–12 semanas</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showDay(0)">Dia A — Peito/Tríceps</button>
+    <button class="tab-btn" onclick="showDay(1)">Dia B — Costas/Bíceps</button>
+    <button class="tab-btn" onclick="showDay(2)">Dia C — Pernas/Glúteos</button>
+    <button class="tab-btn" onclick="showDay(3)">Dia D — Ombro/Core</button>
+  </div>
+
+  <!-- DIA A -->
+  <div class="day-panel active" id="day0">
+    <div class="day-header">
+      <div>
+        <div class="day-tag">Segunda-feira</div>
+        <div class="day-name">Peito · Tríceps · Core</div>
+      </div>
+      <div class="day-tip">Aquecimento: 5 min cardio leve + 2 séries leves do primeiro exercício</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Exercício</th><th>Séries</th><th>Reps</th><th>Descanso</th><th>Cadência</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><span class="ex-name">Supino Reto com Barra</span><span class="ex-obs">Exercício base — foco em sobrecarga progressiva</span></td>
+            <td><span class="pill">4</span></td>
+            <td class="num-cell">6–8</td>
+            <td class="num-cell">2–3 min</td>
+            <td class="num-cell">3-0-1-1</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><span class="ex-name">Supino Inclinado com Halteres</span><span class="ex-obs">Cabeça superior do peitoral</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">8–10</td>
+            <td class="num-cell">90 seg</td>
+            <td class="num-cell">3-0-1-0</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><span class="ex-name">Crossover no Cabo (baixo para cima)</span><span class="ex-obs">Contração máxima no topo</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">10–12</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">2-1-2-0</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><span class="ex-name">Mergulho nas Paralelas</span><span class="ex-obs">Incline o tronco para frente — ênfase no peitoral</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">8–12</td>
+            <td class="num-cell">90 seg</td>
+            <td class="num-cell">3-0-1-0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><span class="ex-name">Tríceps Testa com Barra EZ</span><span class="ex-obs">Controle total na descida</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">10–12</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">3-0-1-0</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><span class="ex-name">Tríceps Polia Alta (corda)</span><span class="ex-obs">Abrir a corda no final para maior contração</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">12–15</td>
+            <td class="num-cell">60 seg</td>
+            <td class="num-cell">2-0-1-1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><strong>Volume total:</strong> ~20 séries</span>
+      <span><strong>Duração estimada:</strong> 55–65 min</span>
+      <span><strong>Cadência:</strong> excêntrico-pausa-concêntrico-pausa (segundos)</span>
+    </div>
+  </div>
+
+  <!-- DIA B -->
+  <div class="day-panel" id="day1">
+    <div class="day-header">
+      <div>
+        <div class="day-tag">Terça-feira</div>
+        <div class="day-name">Costas · Bíceps</div>
+      </div>
+      <div class="day-tip">Ative o latíssimo antes: band pull-apart 2×15</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Exercício</th><th>Séries</th><th>Reps</th><th>Descanso</th><th>Cadência</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><span class="ex-name">Barra Fixa (pegada pronada)</span><span class="ex-obs">Se necessário, usar elástico ou polia assistida</span></td>
+            <td><span class="pill">4</span></td>
+            <td class="num-cell">5–8</td>
+            <td class="num-cell">2–3 min</td>
+            <td class="num-cell">3-0-1-1</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><span class="ex-name">Remada Curvada com Barra</span><span class="ex-obs">Tronco a 45°, cotovelos próximos ao corpo</span></td>
+            <td><span class="pill">4</span></td>
+            <td class="num-cell">6–8</td>
+            <td class="num-cell">2 min</td>
+            <td class="num-cell">3-0-1-0</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><span class="ex-name">Remada Serrote com Halter</span><span class="ex-obs">Amplitude completa — sem rotação do tronco</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">8–12</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">3-0-1-0</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><span class="ex-name">Pulldown Supinado no Cabo</span><span class="ex-obs">Foco no pico de contração do latíssimo</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">10–12</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">2-1-1-0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><span class="ex-name">Rosca Direta com Barra EZ</span><span class="ex-obs">Sem balanço — cotovelos fixos</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">8–10</td>
+            <td class="num-cell">90 seg</td>
+            <td class="num-cell">3-0-1-1</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><span class="ex-name">Rosca Concentrada com Halter</span><span class="ex-obs">Supinar o punho no topo</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">10–12</td>
+            <td class="num-cell">60 seg</td>
+            <td class="num-cell">3-1-1-0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><strong>Volume total:</strong> ~20 séries</span>
+      <span><strong>Duração estimada:</strong> 55–65 min</span>
+    </div>
+  </div>
+
+  <!-- DIA C -->
+  <div class="day-panel" id="day2">
+    <div class="day-header">
+      <div>
+        <div class="day-tag">Quinta-feira</div>
+        <div class="day-name">Quadríceps · Posterior · Glúteos · Panturrilha</div>
+      </div>
+      <div class="day-tip">Aquecimento: 5 min de bicicleta + mobilidade de quadril</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Exercício</th><th>Séries</th><th>Reps</th><th>Descanso</th><th>Cadência</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><span class="ex-name">Agachamento Livre com Barra</span><span class="ex-obs">Profundidade abaixo do paralelo — barra alta</span></td>
+            <td><span class="pill">4</span></td>
+            <td class="num-cell">5–8</td>
+            <td class="num-cell">2–3 min</td>
+            <td class="num-cell">3-1-1-0</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><span class="ex-name">Leg Press 45°</span><span class="ex-obs">Pés na largura dos ombros, sem travar o joelho</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">10–12</td>
+            <td class="num-cell">90 seg</td>
+            <td class="num-cell">3-0-1-0</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><span class="ex-name">Cadeira Extensora</span><span class="ex-obs">Pausa de 1 seg no topo para maior tensão</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">12–15</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">2-1-1-0</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><span class="ex-name">Levantamento Terra Romeno com Barra</span><span class="ex-obs">Barra rente ao corpo — sentir o alongamento no isquio</span></td>
+            <td><span class="pill">4</span></td>
+            <td class="num-cell">8–10</td>
+            <td class="num-cell">2 min</td>
+            <td class="num-cell">3-0-1-0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><span class="ex-name">Mesa Flexora</span><span class="ex-obs">Controle total — não soltar rápido na subida</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">10–12</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">3-1-1-0</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><span class="ex-name">Elevação de Panturrilha em Pé (Smith ou livre)</span><span class="ex-obs">Amplitude total — pausa 1 seg no topo</span></td>
+            <td><span class="pill">4</span></td>
+            <td class="num-cell">12–15</td>
+            <td class="num-cell">60 seg</td>
+            <td class="num-cell">2-1-2-1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><strong>Volume total:</strong> ~21 séries</span>
+      <span><strong>Duração estimada:</strong> 65–75 min</span>
+    </div>
+  </div>
+
+  <!-- DIA D -->
+  <div class="day-panel" id="day3">
+    <div class="day-header">
+      <div>
+        <div class="day-tag">Sexta-feira</div>
+        <div class="day-name">Ombros · Trapézio · Core</div>
+      </div>
+      <div class="day-tip">Ative rotadores: 2×15 rotação externa com elástico antes de começar</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Exercício</th><th>Séries</th><th>Reps</th><th>Descanso</th><th>Cadência</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><span class="ex-name">Desenvolvimento com Barra (frente)</span><span class="ex-obs">Pode ser sentado ou em pé</span></td>
+            <td><span class="pill">4</span></td>
+            <td class="num-cell">6–8</td>
+            <td class="num-cell">2 min</td>
+            <td class="num-cell">3-0-1-0</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><span class="ex-name">Elevação Lateral com Halteres</span><span class="ex-obs">Cotovelo ligeiramente flexionado — sem balanço</span></td>
+            <td><span class="pill">4</span></td>
+            <td class="num-cell">10–15</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">2-1-2-0</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><span class="ex-name">Elevação Frontal com Halteres (alternado)</span><span class="ex-obs">Controle — evitar usar o corpo para balançar</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">10–12</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">2-0-2-0</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><span class="ex-name">Crucifixo Invertido (peck deck invertido)</span><span class="ex-obs">Deltóide posterior — essencial para equilíbrio</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">12–15</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">2-1-1-0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><span class="ex-name">Encolhimento com Barra ou Halteres</span><span class="ex-obs">Sem rotação — subir direto para o teto</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">10–12</td>
+            <td class="num-cell">75 seg</td>
+            <td class="num-cell">2-1-1-0</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><span class="ex-name">Prancha com Variação (lateral alternada)</span><span class="ex-obs">Core engajado — não deixar o quadril cair</span></td>
+            <td><span class="pill">3</span></td>
+            <td class="num-cell">30–45 seg</td>
+            <td class="num-cell">60 seg</td>
+            <td class="num-cell">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><strong>Volume total:</strong> ~20 séries</span>
+      <span><strong>Duração estimada:</strong> 55–65 min</span>
+    </div>
+  </div>
+
+  <button class="ask-btn" onclick="sendPrompt('Tenho uma dúvida sobre essa ficha de treino')">Tirar dúvida sobre a ficha ↗</button>
+</div>
+
+<script>
+function showDay(i) {
+  document.querySelectorAll('.day-panel').forEach((p, idx) => {
+    p.classList.toggle('active', idx === i);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b, idx) => {
+    b.classList.toggle('active', idx === i);
+  });
+}
+</script>

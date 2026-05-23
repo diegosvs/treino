@@ -1,0 +1,354 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0 2rem;font-family:var(--font-sans)}
+.top-bar{display:flex;align-items:center;gap:14px;padding:1rem 1.25rem;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
+.top-icon{width:40px;height:40px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.top-icon i{font-size:19px;color:#0F6E56}
+.top-title{font-size:16px;font-weight:500;color:var(--color-text-primary);line-height:1.2}
+.top-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.phase-chips{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.chip{font-size:11px;padding:3px 9px;border-radius:999px;font-weight:500;white-space:nowrap}
+.chip-cv{background:#E1F5EE;color:#0F6E56;border:0.5px solid #5DCAA5}
+.chip-mob{background:#E6F1FB;color:#185FA5;border:0.5px solid #85B7EB}
+.chip-stab{background:#FAEEDA;color:#633806;border:0.5px solid #EF9F27}
+.chip-atv{background:#FAECE7;color:#712B13;border:0.5px solid #F0997B}
+
+.day-tabs{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+.dtab{padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
+.dtab:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.dtab.on{background:#1D9E75;color:#fff;border-color:#1D9E75}
+
+.dpanel{display:none}
+.dpanel.on{display:block}
+
+.day-label{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding:0.6rem 1rem;border-left:3px solid #1D9E75;border-radius:0;background:var(--color-background-secondary)}
+.day-label-tag{font-size:11px;font-weight:500;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em}
+.day-label-name{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.day-label-time{margin-left:auto;font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;gap:4px}
+
+.phase-block{margin-bottom:1rem}
+.phase-header{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:var(--border-radius-md);margin-bottom:6px}
+.phase-header i{font-size:15px}
+.phase-header span{font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+
+.ph-cv{background:#E1F5EE}.ph-cv i,.ph-cv span{color:#085041}
+.ph-mob{background:#E6F1FB}.ph-mob i,.ph-mob span{color:#0C447C}
+.ph-stab{background:#FAEEDA}.ph-stab i,.ph-stab span{color:#633806}
+.ph-atv{background:#FAECE7}.ph-atv i,.ph-atv span{color:#712B13}
+
+.ex-row{display:grid;grid-template-columns:1fr 70px minmax(0,1.6fr);gap:8px;align-items:start;padding:9px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);margin-bottom:5px;background:var(--color-background-primary)}
+.ex-row:hover{background:var(--color-background-secondary)}
+.ex-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.35}
+.ex-name small{display:block;font-size:11px;font-weight:400;color:var(--color-text-secondary);margin-top:1px}
+.ex-dur{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-align:center;padding:3px 7px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:4px}
+.ex-dur i{font-size:12px}
+.ex-obj{font-size:12px;color:var(--color-text-secondary);line-height:1.45}
+
+.timeline{display:flex;gap:0;margin:1rem 0;border-radius:var(--border-radius-md);overflow:hidden;border:0.5px solid var(--color-border-tertiary)}
+.tl-seg{flex:1;padding:6px 4px;text-align:center;font-size:10px;font-weight:500;line-height:1.3}
+.tl-cv{background:#E1F5EE;color:#085041}
+.tl-mob{background:#E6F1FB;color:#0C447C}
+.tl-stab{background:#FAEEDA;color:#633806}
+.tl-atv{background:#FAECE7;color:#712B13}
+.tl-seg span{display:block;font-size:11px;margin-top:1px;opacity:.8}
+
+.footer-note{padding:.75rem 1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);margin-top:1rem}
+</style>
+
+<h2 class="sr-only">Protocolo de aquecimento de 10 minutos para os treinos A, B, C e D</h2>
+
+<div class="wrap">
+<div class="top-bar">
+  <div class="top-icon"><i class="ti ti-flame" aria-hidden="true"></i></div>
+  <div>
+    <div class="top-title">Protocolo de aquecimento — 10 min</div>
+    <div class="top-sub">4 fases · Específico por dia · Progressivo</div>
+  </div>
+  <div class="phase-chips">
+    <span class="chip chip-cv">FC progressiva</span>
+    <span class="chip chip-mob">Mobilidade</span>
+    <span class="chip chip-stab">Estabilidade</span>
+    <span class="chip chip-atv">Ativação</span>
+  </div>
+</div>
+
+<div class="day-tabs">
+  <button class="dtab on" onclick="show(0)">Dia A — Peito/Tríceps</button>
+  <button class="dtab" onclick="show(1)">Dia B — Costas/Bíceps</button>
+  <button class="dtab" onclick="show(2)">Dia C — Pernas/Glúteos</button>
+  <button class="dtab" onclick="show(3)">Dia D — Ombro/Core</button>
+</div>
+
+<!-- DIA A -->
+<div class="dpanel on" id="p0">
+  <div class="day-label">
+    <div><div class="day-label-tag">Segunda-feira</div><div class="day-label-name">Peito · Tríceps · Core</div></div>
+    <div class="day-label-time"><i class="ti ti-clock" aria-hidden="true"></i> 10 min</div>
+  </div>
+  <div class="timeline">
+    <div class="tl-seg tl-cv">FC progressiva<span>0–2 min</span></div>
+    <div class="tl-seg tl-mob">Mobilidade<span>2–5 min</span></div>
+    <div class="tl-seg tl-stab">Estabilidade<span>5–8 min</span></div>
+    <div class="tl-seg tl-atv">Ativação<span>8–10 min</span></div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-cv"><i class="ti ti-run" aria-hidden="true"></i><span>FC progressiva</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Polichinelo ou caminhada rápida<small>Ritmo crescente</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
+      <div class="ex-obj">Elevar FC gradualmente e aumentar temperatura corporal</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-mob"><i class="ti ti-accessible" aria-hidden="true"></i><span>Mobilidade articular</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Rotação de ombros (frente e trás)<small>10 rep cada direção</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
+      <div class="ex-obj">Soltar a articulação glenoumeral — prepara para supino</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Abertura de peito com bastão ou cabo<small>Amplitude controlada</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
+      <div class="ex-obj">Melhorar extensão torácica e mobilidade anterior do ombro</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Retração e protração escapular<small>12 rep lentas</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
+      <div class="ex-obj">Ativar controle escapular para estabilizar o supino</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-stab"><i class="ti ti-shield" aria-hidden="true"></i><span>Estabilidade</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Prancha frontal<small>Mantida com controle da respiração</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
+      <div class="ex-obj">Ativar core e serrato anterior — suporte durante o supino</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Push-up negativo lento (3 seg descendo)<small>5–8 rep</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
+      <div class="ex-obj">Estabilizar ombros e familiarizar o padrão de empurrar</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-atv"><i class="ti ti-bolt" aria-hidden="true"></i><span>Ativação muscular</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Supino com barra vazia ou halteres leves<small>2 séries × 10 rep a 40–50% da carga de trabalho</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
+      <div class="ex-obj">Ativar neuromotoramente peitoral e tríceps antes da carga máxima</div>
+    </div>
+  </div>
+  <div class="footer-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Após os 10 min, faça uma série extra leve do primeiro exercício do treino (60% da carga) antes de trabalhar pesado.</div>
+</div>
+
+<!-- DIA B -->
+<div class="dpanel" id="p1">
+  <div class="day-label">
+    <div><div class="day-label-tag">Terça-feira</div><div class="day-label-name">Costas · Bíceps</div></div>
+    <div class="day-label-time"><i class="ti ti-clock" aria-hidden="true"></i> 10 min</div>
+  </div>
+  <div class="timeline">
+    <div class="tl-seg tl-cv">FC progressiva<span>0–2 min</span></div>
+    <div class="tl-seg tl-mob">Mobilidade<span>2–5 min</span></div>
+    <div class="tl-seg tl-stab">Estabilidade<span>5–8 min</span></div>
+    <div class="tl-seg tl-atv">Ativação<span>8–10 min</span></div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-cv"><i class="ti ti-run" aria-hidden="true"></i><span>FC progressiva</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Remada no ar (shadow rowing) ou polichinelo<small>Ritmo crescente</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
+      <div class="ex-obj">Elevar FC e aquecer a cintura escapular</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-mob"><i class="ti ti-accessible" aria-hidden="true"></i><span>Mobilidade articular</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Rotação torácica em decúbito lateral<small>8 rep cada lado</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
+      <div class="ex-obj">Liberar a coluna torácica para maximizar amplitude na remada</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Dead hang na barra (pendurado passivo)<small>20–30 seg</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
+      <div class="ex-obj">Descomprimir coluna e alongar latíssimo e ombros</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Rotação externa de ombro com elástico<small>15 rep cada lado</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
+      <div class="ex-obj">Mobilizar manguito rotador antes de puxadas e remadas pesadas</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-stab"><i class="ti ti-shield" aria-hidden="true"></i><span>Estabilidade</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Band pull-apart (elástico na altura do peito)<small>2 × 15 rep</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
+      <div class="ex-obj">Ativar deltoide posterior e romboides — estabilidade escapular</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Face pull leve no cabo<small>15 rep lentas</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
+      <div class="ex-obj">Pré-ativar retratores escapulares e manguito rotador</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-atv"><i class="ti ti-bolt" aria-hidden="true"></i><span>Ativação muscular</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Pulldown leve no cabo ou barra assistida<small>2 séries × 10 rep, carga baixa</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
+      <div class="ex-obj">Ativar latíssimo e criar conexão neuromuscular antes da barra fixa</div>
+    </div>
+  </div>
+  <div class="footer-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Antes da barra fixa pesada, faça 1 série assistida ou com elástico para calibrar o padrão de movimento.</div>
+</div>
+
+<!-- DIA C -->
+<div class="dpanel" id="p2">
+  <div class="day-label">
+    <div><div class="day-label-tag">Quinta-feira</div><div class="day-label-name">Quadríceps · Posterior · Glúteos</div></div>
+    <div class="day-label-time"><i class="ti ti-clock" aria-hidden="true"></i> 10 min</div>
+  </div>
+  <div class="timeline">
+    <div class="tl-seg tl-cv">FC progressiva<span>0–2 min</span></div>
+    <div class="tl-seg tl-mob">Mobilidade<span>2–6 min</span></div>
+    <div class="tl-seg tl-stab">Estabilidade<span>6–8 min</span></div>
+    <div class="tl-seg tl-atv">Ativação<span>8–10 min</span></div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-cv"><i class="ti ti-run" aria-hidden="true"></i><span>FC progressiva</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Bicicleta ergométrica ou elíptico<small>Cadência progressiva</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
+      <div class="ex-obj">Aquecer articulações dos membros inferiores com impacto zero</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-mob"><i class="ti ti-accessible" aria-hidden="true"></i><span>Mobilidade articular</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Afundo com rotação torácica (world's greatest stretch)<small>5 rep cada lado</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
+      <div class="ex-obj">Mobilizar quadril, tornozelo e coluna — prep completo para o agachamento</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Mobilização de tornozelo na parede<small>10 rep cada lado</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
+      <div class="ex-obj">Aumentar dorsiflexão — essencial para agachamento profundo</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Passada lateral com agachamento (sumo walk)<small>10 rep cada lado</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
+      <div class="ex-obj">Abrir quadril e mobilizar adutores dinamicamente</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-stab"><i class="ti ti-shield" aria-hidden="true"></i><span>Estabilidade</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Ponte de glúteos com pausa no topo<small>2 × 12 rep, 2 seg de pausa</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
+      <div class="ex-obj">Ativar glúteo máximo e estabilizar pelve antes do agachamento</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Agachamento goblet com halter leve<small>10 rep lentas, ênfase na profundidade</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
+      <div class="ex-obj">Estabilizar core e calibrar postura antes de colocar barra</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-atv"><i class="ti ti-bolt" aria-hidden="true"></i><span>Ativação muscular</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Agachamento com barra vazia<small>2 × 8 rep — foco em técnica e profundidade</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
+      <div class="ex-obj">Ativar toda a cadeia posterior e quadríceps no padrão exato do treino</div>
+    </div>
+  </div>
+  <div class="footer-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Para o agachamento livre, faça ramp-up de carga: barra vazia → 50% → 70% antes de trabalhar na carga máxima.</div>
+</div>
+
+<!-- DIA D -->
+<div class="dpanel" id="p3">
+  <div class="day-label">
+    <div><div class="day-label-tag">Sexta-feira</div><div class="day-label-name">Ombros · Trapézio · Core</div></div>
+    <div class="day-label-time"><i class="ti ti-clock" aria-hidden="true"></i> 10 min</div>
+  </div>
+  <div class="timeline">
+    <div class="tl-seg tl-cv">FC progressiva<span>0–2 min</span></div>
+    <div class="tl-seg tl-mob">Mobilidade<span>2–5 min</span></div>
+    <div class="tl-seg tl-stab">Estabilidade<span>5–8 min</span></div>
+    <div class="tl-seg tl-atv">Ativação<span>8–10 min</span></div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-cv"><i class="ti ti-run" aria-hidden="true"></i><span>FC progressiva</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Corda naval leve ou salto com braços acima<small>Ritmo progressivo</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
+      <div class="ex-obj">Elevar FC com padrão de movimento overhead — específico para ombros</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-mob"><i class="ti ti-accessible" aria-hidden="true"></i><span>Mobilidade articular</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Círculos de ombro com bastão (halo)<small>10 rep cada direção</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
+      <div class="ex-obj">Soltar toda a amplitude glenoumeral para o desenvolvimento</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Mobilização overhead com elástico (pass-through)<small>10 rep, pegada larga</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
+      <div class="ex-obj">Abrir ombros e melhorar amplitude do movimento overhead</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Rotação cervical lenta + inclinação lateral<small>5 rep cada lado</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
+      <div class="ex-obj">Liberar tensão cervical e trapézio superior antes do encolhimento</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-stab"><i class="ti ti-shield" aria-hidden="true"></i><span>Estabilidade</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Rotação externa com elástico (cotovelo a 90°)<small>2 × 15 rep cada lado</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
+      <div class="ex-obj">Ativar manguito rotador e proteger a articulação durante carga overhead</div>
+    </div>
+    <div class="ex-row">
+      <div class="ex-name">Prancha lateral alternada<small>20 seg cada lado</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>50 seg</div>
+      <div class="ex-obj">Estabilizar core lateral — suporte para o desenvolvimento em pé</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header ph-atv"><i class="ti ti-bolt" aria-hidden="true"></i><span>Ativação muscular</span></div>
+    <div class="ex-row">
+      <div class="ex-name">Desenvolvimento com halteres leves (50% da carga)<small>2 × 10 rep, foco na amplitude</small></div>
+      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
+      <div class="ex-obj">Ativar deltoides e estabilizadores escapulares no padrão exato do treino</div>
+    </div>
+  </div>
+  <div class="footer-note"><i class="ti ti-info-circle" aria-hidden="true"></i> O ombro é a articulação mais suscetível a lesão no treino de força — não pule este aquecimento no Dia D.</div>
+</div>
+
+</div>
+
+<script>
+function show(i){
+  document.querySelectorAll('.dpanel').forEach((p,idx)=>p.classList.toggle('on',idx===i));
+  document.querySelectorAll('.dtab').forEach((b,idx)=>b.classList.toggle('on',idx===i));
+}
+</script>
