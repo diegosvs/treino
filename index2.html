@@ -1,354 +1,164 @@
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ficha de Treino — Hipertrofia</title>
 <style>
+:root{--accent:#C2410C;--accent-light:#FAECE7;--accent-mid:#D85A30;--bg:#fff;--bg2:#f5f4f0;--tx:#1a1a18;--tx2:#5f5e5a;--bd:rgba(0,0,0,.15);--bd2:rgba(0,0,0,.3);--blue-bg:#E6F1FB;--blue-tx:#0C447C;--green-bg:#EAF3DE;--green-tx:#3B6D11}
+@media(prefers-color-scheme:dark){:root{--accent-light:#4A1B0C;--accent:#F0997B;--bg:#1c1c1a;--bg2:#2a2a27;--tx:#f1efe8;--tx2:#b4b2a9;--bd:rgba(255,255,255,.15);--bd2:rgba(255,255,255,.3);--blue-bg:#042C53;--blue-tx:#B5D4F4;--green-bg:#173404;--green-tx:#C0DD97}}
 *{box-sizing:border-box;margin:0;padding:0}
-.wrap{padding:1rem 0 2rem;font-family:var(--font-sans)}
-.top-bar{display:flex;align-items:center;gap:14px;padding:1rem 1.25rem;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
-.top-icon{width:40px;height:40px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.top-icon i{font-size:19px;color:#0F6E56}
-.top-title{font-size:16px;font-weight:500;color:var(--color-text-primary);line-height:1.2}
-.top-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
-.phase-chips{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
-.chip{font-size:11px;padding:3px 9px;border-radius:999px;font-weight:500;white-space:nowrap}
-.chip-cv{background:#E1F5EE;color:#0F6E56;border:0.5px solid #5DCAA5}
-.chip-mob{background:#E6F1FB;color:#185FA5;border:0.5px solid #85B7EB}
-.chip-stab{background:#FAEEDA;color:#633806;border:0.5px solid #EF9F27}
-.chip-atv{background:#FAECE7;color:#712B13;border:0.5px solid #F0997B}
-
-.day-tabs{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
-.dtab{padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
-.dtab:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
-.dtab.on{background:#1D9E75;color:#fff;border-color:#1D9E75}
-
-.dpanel{display:none}
-.dpanel.on{display:block}
-
-.day-label{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding:0.6rem 1rem;border-left:3px solid #1D9E75;border-radius:0;background:var(--color-background-secondary)}
-.day-label-tag{font-size:11px;font-weight:500;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em}
-.day-label-name{font-size:14px;font-weight:500;color:var(--color-text-primary)}
-.day-label-time{margin-left:auto;font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;gap:4px}
-
-.phase-block{margin-bottom:1rem}
-.phase-header{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:var(--border-radius-md);margin-bottom:6px}
-.phase-header i{font-size:15px}
-.phase-header span{font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
-
-.ph-cv{background:#E1F5EE}.ph-cv i,.ph-cv span{color:#085041}
-.ph-mob{background:#E6F1FB}.ph-mob i,.ph-mob span{color:#0C447C}
-.ph-stab{background:#FAEEDA}.ph-stab i,.ph-stab span{color:#633806}
-.ph-atv{background:#FAECE7}.ph-atv i,.ph-atv span{color:#712B13}
-
-.ex-row{display:grid;grid-template-columns:1fr 70px minmax(0,1.6fr);gap:8px;align-items:start;padding:9px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);margin-bottom:5px;background:var(--color-background-primary)}
-.ex-row:hover{background:var(--color-background-secondary)}
-.ex-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.35}
-.ex-name small{display:block;font-size:11px;font-weight:400;color:var(--color-text-secondary);margin-top:1px}
-.ex-dur{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-align:center;padding:3px 7px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:4px}
-.ex-dur i{font-size:12px}
-.ex-obj{font-size:12px;color:var(--color-text-secondary);line-height:1.45}
-
-.timeline{display:flex;gap:0;margin:1rem 0;border-radius:var(--border-radius-md);overflow:hidden;border:0.5px solid var(--color-border-tertiary)}
-.tl-seg{flex:1;padding:6px 4px;text-align:center;font-size:10px;font-weight:500;line-height:1.3}
-.tl-cv{background:#E1F5EE;color:#085041}
-.tl-mob{background:#E6F1FB;color:#0C447C}
-.tl-stab{background:#FAEEDA;color:#633806}
-.tl-atv{background:#FAECE7;color:#712B13}
-.tl-seg span{display:block;font-size:11px;margin-top:1px;opacity:.8}
-
-.footer-note{padding:.75rem 1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);margin-top:1rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);max-width:900px;margin:0 auto;padding:1rem}
+.header{display:flex;align-items:center;gap:14px;padding:1rem 1.25rem;background:var(--bg2);border-radius:12px;margin-bottom:1rem;border:.5px solid var(--bd);flex-wrap:wrap}
+.logo{width:42px;height:42px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.title{font-size:17px;font-weight:500}.sub{font-size:13px;color:var(--tx2);margin-top:2px}
+.badge{font-size:11px;padding:3px 10px;border-radius:999px;font-weight:500;background:var(--accent-light);color:var(--accent);border:.5px solid var(--accent-mid)}
+.badges{display:flex;gap:6px;margin-left:auto}
+.leg{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem;font-size:12px;align-items:center;color:var(--tx2)}
+.src{display:inline-block;font-size:10px;padding:2px 7px;border-radius:999px;font-weight:500;margin-left:6px;vertical-align:middle}
+.src-p{background:var(--blue-bg);color:var(--blue-tx)}.src-o{background:var(--green-bg);color:var(--green-tx)}
+.tabs1,.tabs2{display:flex;gap:6px;flex-wrap:wrap}
+.tabs1{margin-bottom:6px}
+.tabs2{margin-bottom:1rem;padding:8px 10px;background:var(--bg2);border-radius:8px;border:.5px solid var(--bd)}
+button.t1{padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;border-radius:8px;border:.5px solid var(--bd2);background:var(--bg);color:var(--tx2)}
+button.t1.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+button.t2{padding:5px 12px;font-size:12px;font-weight:500;cursor:pointer;border-radius:8px;border:.5px solid transparent;background:transparent;color:var(--tx2)}
+button.t2.on{background:var(--bg);color:var(--accent);border-color:var(--bd2)}
+.dh{display:flex;align-items:center;gap:12px;margin-bottom:1rem;padding:.7rem 1.25rem;background:var(--bg2);border-left:3px solid var(--accent);flex-wrap:wrap}
+.dtag{font-size:11px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.dname{font-size:15px;font-weight:500}
+.tip{font-size:12px;color:var(--tx2);margin-left:auto;max-width:240px;text-align:right;line-height:1.4}
+.tw{overflow-x:auto;border-radius:12px;border:.5px solid var(--bd)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--bg2);color:var(--tx2);font-weight:500;padding:8px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:.5px solid var(--bd)}
+td{padding:10px 12px;vertical-align:top;line-height:1.4;border-bottom:.5px solid var(--bd)}
+tr:last-child td{border-bottom:none}
+.en{font-weight:500;display:block}.eo{font-size:11px;color:var(--tx2);display:block;margin-top:2px}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:500;background:var(--accent-light);color:var(--accent)}
+.nc{font-variant-numeric:tabular-nums;white-space:nowrap}
+.peso{width:86px;padding:6px 8px;font-size:16px;border:.5px solid var(--bd2);border-radius:8px;background:var(--bg);color:var(--tx);text-align:center;font-family:inherit}
+.peso:focus{outline:2px solid var(--accent-mid);border-color:var(--accent-mid)}
+.peso.filled{background:var(--accent-light);border-color:var(--accent-mid)}
+.foot{margin-top:1rem;padding:.75rem 1rem;background:var(--bg2);border-radius:8px;border:.5px solid var(--bd);font-size:12px;color:var(--tx2);display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.foot b{color:var(--tx);font-weight:500}
+.clear{margin-left:auto;font-size:12px;padding:5px 10px;border-radius:8px;border:.5px solid var(--bd2);background:var(--bg);color:var(--tx2);cursor:pointer}
+.sp{display:none}.sp.on{display:block}
 </style>
-
-<h2 class="sr-only">Protocolo de aquecimento de 10 minutos para os treinos A, B, C e D</h2>
-
-<div class="wrap">
-<div class="top-bar">
-  <div class="top-icon"><i class="ti ti-flame" aria-hidden="true"></i></div>
-  <div>
-    <div class="top-title">Protocolo de aquecimento — 10 min</div>
-    <div class="top-sub">4 fases · Específico por dia · Progressivo</div>
-  </div>
-  <div class="phase-chips">
-    <span class="chip chip-cv">FC progressiva</span>
-    <span class="chip chip-mob">Mobilidade</span>
-    <span class="chip chip-stab">Estabilidade</span>
-    <span class="chip chip-atv">Ativação</span>
-  </div>
+</head>
+<body>
+<div class="header">
+  <div class="logo">🏋️</div>
+  <div><div class="title">Ficha de Treino — Hipertrofia</div><div class="sub">4 dias / semana · Intermediário · Academia</div></div>
+  <div class="badges"><span class="badge">Upper/Lower</span><span class="badge">8–12 semanas</span></div>
 </div>
-
-<div class="day-tabs">
-  <button class="dtab on" onclick="show(0)">Dia A — Peito/Tríceps</button>
-  <button class="dtab" onclick="show(1)">Dia B — Costas/Bíceps</button>
-  <button class="dtab" onclick="show(2)">Dia C — Pernas/Glúteos</button>
-  <button class="dtab" onclick="show(3)">Dia D — Ombro/Core</button>
-</div>
-
-<!-- DIA A -->
-<div class="dpanel on" id="p0">
-  <div class="day-label">
-    <div><div class="day-label-tag">Segunda-feira</div><div class="day-label-name">Peito · Tríceps · Core</div></div>
-    <div class="day-label-time"><i class="ti ti-clock" aria-hidden="true"></i> 10 min</div>
-  </div>
-  <div class="timeline">
-    <div class="tl-seg tl-cv">FC progressiva<span>0–2 min</span></div>
-    <div class="tl-seg tl-mob">Mobilidade<span>2–5 min</span></div>
-    <div class="tl-seg tl-stab">Estabilidade<span>5–8 min</span></div>
-    <div class="tl-seg tl-atv">Ativação<span>8–10 min</span></div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-cv"><i class="ti ti-run" aria-hidden="true"></i><span>FC progressiva</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Polichinelo ou caminhada rápida<small>Ritmo crescente</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
-      <div class="ex-obj">Elevar FC gradualmente e aumentar temperatura corporal</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-mob"><i class="ti ti-accessible" aria-hidden="true"></i><span>Mobilidade articular</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Rotação de ombros (frente e trás)<small>10 rep cada direção</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
-      <div class="ex-obj">Soltar a articulação glenoumeral — prepara para supino</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Abertura de peito com bastão ou cabo<small>Amplitude controlada</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
-      <div class="ex-obj">Melhorar extensão torácica e mobilidade anterior do ombro</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Retração e protração escapular<small>12 rep lentas</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
-      <div class="ex-obj">Ativar controle escapular para estabilizar o supino</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-stab"><i class="ti ti-shield" aria-hidden="true"></i><span>Estabilidade</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Prancha frontal<small>Mantida com controle da respiração</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
-      <div class="ex-obj">Ativar core e serrato anterior — suporte durante o supino</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Push-up negativo lento (3 seg descendo)<small>5–8 rep</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
-      <div class="ex-obj">Estabilizar ombros e familiarizar o padrão de empurrar</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-atv"><i class="ti ti-bolt" aria-hidden="true"></i><span>Ativação muscular</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Supino com barra vazia ou halteres leves<small>2 séries × 10 rep a 40–50% da carga de trabalho</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
-      <div class="ex-obj">Ativar neuromotoramente peitoral e tríceps antes da carga máxima</div>
-    </div>
-  </div>
-  <div class="footer-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Após os 10 min, faça uma série extra leve do primeiro exercício do treino (60% da carga) antes de trabalhar pesado.</div>
-</div>
-
-<!-- DIA B -->
-<div class="dpanel" id="p1">
-  <div class="day-label">
-    <div><div class="day-label-tag">Terça-feira</div><div class="day-label-name">Costas · Bíceps</div></div>
-    <div class="day-label-time"><i class="ti ti-clock" aria-hidden="true"></i> 10 min</div>
-  </div>
-  <div class="timeline">
-    <div class="tl-seg tl-cv">FC progressiva<span>0–2 min</span></div>
-    <div class="tl-seg tl-mob">Mobilidade<span>2–5 min</span></div>
-    <div class="tl-seg tl-stab">Estabilidade<span>5–8 min</span></div>
-    <div class="tl-seg tl-atv">Ativação<span>8–10 min</span></div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-cv"><i class="ti ti-run" aria-hidden="true"></i><span>FC progressiva</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Remada no ar (shadow rowing) ou polichinelo<small>Ritmo crescente</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
-      <div class="ex-obj">Elevar FC e aquecer a cintura escapular</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-mob"><i class="ti ti-accessible" aria-hidden="true"></i><span>Mobilidade articular</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Rotação torácica em decúbito lateral<small>8 rep cada lado</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
-      <div class="ex-obj">Liberar a coluna torácica para maximizar amplitude na remada</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Dead hang na barra (pendurado passivo)<small>20–30 seg</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
-      <div class="ex-obj">Descomprimir coluna e alongar latíssimo e ombros</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Rotação externa de ombro com elástico<small>15 rep cada lado</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
-      <div class="ex-obj">Mobilizar manguito rotador antes de puxadas e remadas pesadas</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-stab"><i class="ti ti-shield" aria-hidden="true"></i><span>Estabilidade</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Band pull-apart (elástico na altura do peito)<small>2 × 15 rep</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
-      <div class="ex-obj">Ativar deltoide posterior e romboides — estabilidade escapular</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Face pull leve no cabo<small>15 rep lentas</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
-      <div class="ex-obj">Pré-ativar retratores escapulares e manguito rotador</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-atv"><i class="ti ti-bolt" aria-hidden="true"></i><span>Ativação muscular</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Pulldown leve no cabo ou barra assistida<small>2 séries × 10 rep, carga baixa</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
-      <div class="ex-obj">Ativar latíssimo e criar conexão neuromuscular antes da barra fixa</div>
-    </div>
-  </div>
-  <div class="footer-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Antes da barra fixa pesada, faça 1 série assistida ou com elástico para calibrar o padrão de movimento.</div>
-</div>
-
-<!-- DIA C -->
-<div class="dpanel" id="p2">
-  <div class="day-label">
-    <div><div class="day-label-tag">Quinta-feira</div><div class="day-label-name">Quadríceps · Posterior · Glúteos</div></div>
-    <div class="day-label-time"><i class="ti ti-clock" aria-hidden="true"></i> 10 min</div>
-  </div>
-  <div class="timeline">
-    <div class="tl-seg tl-cv">FC progressiva<span>0–2 min</span></div>
-    <div class="tl-seg tl-mob">Mobilidade<span>2–6 min</span></div>
-    <div class="tl-seg tl-stab">Estabilidade<span>6–8 min</span></div>
-    <div class="tl-seg tl-atv">Ativação<span>8–10 min</span></div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-cv"><i class="ti ti-run" aria-hidden="true"></i><span>FC progressiva</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Bicicleta ergométrica ou elíptico<small>Cadência progressiva</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
-      <div class="ex-obj">Aquecer articulações dos membros inferiores com impacto zero</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-mob"><i class="ti ti-accessible" aria-hidden="true"></i><span>Mobilidade articular</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Afundo com rotação torácica (world's greatest stretch)<small>5 rep cada lado</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
-      <div class="ex-obj">Mobilizar quadril, tornozelo e coluna — prep completo para o agachamento</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Mobilização de tornozelo na parede<small>10 rep cada lado</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
-      <div class="ex-obj">Aumentar dorsiflexão — essencial para agachamento profundo</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Passada lateral com agachamento (sumo walk)<small>10 rep cada lado</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
-      <div class="ex-obj">Abrir quadril e mobilizar adutores dinamicamente</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-stab"><i class="ti ti-shield" aria-hidden="true"></i><span>Estabilidade</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Ponte de glúteos com pausa no topo<small>2 × 12 rep, 2 seg de pausa</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
-      <div class="ex-obj">Ativar glúteo máximo e estabilizar pelve antes do agachamento</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Agachamento goblet com halter leve<small>10 rep lentas, ênfase na profundidade</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
-      <div class="ex-obj">Estabilizar core e calibrar postura antes de colocar barra</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-atv"><i class="ti ti-bolt" aria-hidden="true"></i><span>Ativação muscular</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Agachamento com barra vazia<small>2 × 8 rep — foco em técnica e profundidade</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
-      <div class="ex-obj">Ativar toda a cadeia posterior e quadríceps no padrão exato do treino</div>
-    </div>
-  </div>
-  <div class="footer-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Para o agachamento livre, faça ramp-up de carga: barra vazia → 50% → 70% antes de trabalhar na carga máxima.</div>
-</div>
-
-<!-- DIA D -->
-<div class="dpanel" id="p3">
-  <div class="day-label">
-    <div><div class="day-label-tag">Sexta-feira</div><div class="day-label-name">Ombros · Trapézio · Core</div></div>
-    <div class="day-label-time"><i class="ti ti-clock" aria-hidden="true"></i> 10 min</div>
-  </div>
-  <div class="timeline">
-    <div class="tl-seg tl-cv">FC progressiva<span>0–2 min</span></div>
-    <div class="tl-seg tl-mob">Mobilidade<span>2–5 min</span></div>
-    <div class="tl-seg tl-stab">Estabilidade<span>5–8 min</span></div>
-    <div class="tl-seg tl-atv">Ativação<span>8–10 min</span></div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-cv"><i class="ti ti-run" aria-hidden="true"></i><span>FC progressiva</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Corda naval leve ou salto com braços acima<small>Ritmo progressivo</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
-      <div class="ex-obj">Elevar FC com padrão de movimento overhead — específico para ombros</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-mob"><i class="ti ti-accessible" aria-hidden="true"></i><span>Mobilidade articular</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Círculos de ombro com bastão (halo)<small>10 rep cada direção</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
-      <div class="ex-obj">Soltar toda a amplitude glenoumeral para o desenvolvimento</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Mobilização overhead com elástico (pass-through)<small>10 rep, pegada larga</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>45 seg</div>
-      <div class="ex-obj">Abrir ombros e melhorar amplitude do movimento overhead</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Rotação cervical lenta + inclinação lateral<small>5 rep cada lado</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>30 seg</div>
-      <div class="ex-obj">Liberar tensão cervical e trapézio superior antes do encolhimento</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-stab"><i class="ti ti-shield" aria-hidden="true"></i><span>Estabilidade</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Rotação externa com elástico (cotovelo a 90°)<small>2 × 15 rep cada lado</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>60 seg</div>
-      <div class="ex-obj">Ativar manguito rotador e proteger a articulação durante carga overhead</div>
-    </div>
-    <div class="ex-row">
-      <div class="ex-name">Prancha lateral alternada<small>20 seg cada lado</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>50 seg</div>
-      <div class="ex-obj">Estabilizar core lateral — suporte para o desenvolvimento em pé</div>
-    </div>
-  </div>
-
-  <div class="phase-block">
-    <div class="phase-header ph-atv"><i class="ti ti-bolt" aria-hidden="true"></i><span>Ativação muscular</span></div>
-    <div class="ex-row">
-      <div class="ex-name">Desenvolvimento com halteres leves (50% da carga)<small>2 × 10 rep, foco na amplitude</small></div>
-      <div class="ex-dur"><i class="ti ti-clock" aria-hidden="true"></i>2 min</div>
-      <div class="ex-obj">Ativar deltoides e estabilizadores escapulares no padrão exato do treino</div>
-    </div>
-  </div>
-  <div class="footer-note"><i class="ti ti-info-circle" aria-hidden="true"></i> O ombro é a articulação mais suscetível a lesão no treino de força — não pule este aquecimento no Dia D.</div>
-</div>
-
-</div>
+<div class="leg"><span>Legenda:</span><span><span class="src src-o">original</span> Ficha anterior</span><span><span class="src src-p">planilha</span> Exercícios das planilhas</span><span>· Anote a carga na coluna “Peso (kg)” — fica salva no aparelho</span></div>
+<div class="tabs1" id="t1"></div>
+<div id="days"></div>
 
 <script>
-function show(i){
-  document.querySelectorAll('.dpanel').forEach((p,idx)=>p.classList.toggle('on',idx===i));
-  document.querySelectorAll('.dtab').forEach((b,idx)=>b.classList.toggle('on',idx===i));
+const D=[
+{n:"Dia A — Peito / Tríceps",subs:[
+ {n:"Peito",tag:"Segunda-feira",tip:"Aquecimento: manguito rotador 2×15 + supino leve 2×10",tot:"~22 séries",dur:"60–70 min",r:[
+  ["Supino Reto com Barra","o","Exercício base — foco em sobrecarga progressiva",4,"6–8","2–3 min","3-0-1-1"],
+  ["Supino Reto com Halteres","p","Melhor para reativar estabilizadores",3,"10–12","90 seg","3-0-1-0"],
+  ["Supino Inclinado com Halteres","o","Banco a 30°–45° — cabeça clavicular do peitoral",3,"8–10","90 seg","3-0-1-0"],
+  ["Supino Inclinado (Máquina)","p","Máquina articulada (Chest Press) — porção superior",3,"12","75 seg","2-1-1-0"],
+  ["Peck Deck / Crucifixo Máquina","p","Foque na contração no centro do peito",3,"12–15","75 seg","2-1-2-0"],
+  ["Crossover no Cabo (baixo para cima)","o","Contração máxima no topo",3,"10–12","75 seg","2-1-2-0"],
+  ["Mergulho nas Paralelas","o","Incline o tronco para frente — ênfase no peitoral",3,"8–12","90 seg","3-0-1-0"]]},
+ {n:"Tríceps",tag:"Segunda-feira",tip:"Cotovelos fixos em todos os exercícios de isolamento",tot:"~12 séries",dur:"25–30 min",r:[
+  ["Tríceps Testa com Barra EZ","o","Controle total na descida — cabeça longa",3,"10–12","90 seg","3-0-1-0"],
+  ["Tríceps Francês (Halter ou Polia)","p","Estenda bem o braço — volume na cabeça longa",3,"12","75 seg","3-0-1-0"],
+  ["Tríceps Polia Alta — Barra Reta","p","Cotovelos travados na costela — cabeça lateral",3,"12","75 seg","2-0-1-1"],
+  ["Tríceps Polia Alta (corda)","o","Afastar as mãos no final para maior contração",3,"12–15","60 seg","2-0-1-1"]]}]},
+{n:"Dia B — Costas / Bíceps",subs:[
+ {n:"Costas",tag:"Terça-feira",tip:"Band pull-apart 2×15 antes de começar",tot:"~23 séries",dur:"65–75 min",r:[
+  ["Barra Fixa (pegada pronada)","o","Se necessário, usar elástico ou polia assistida",4,"5–8","2–3 min","3-0-1-1"],
+  ["Puxada Alta Aberta","p","Puxe em direção ao peito, nunca para a nuca — largura",3,"10–12","90 seg","3-0-1-1"],
+  ["Remada Curvada com Barra","o","Tronco a 45°, cotovelos próximos ao corpo — espessura",4,"6–8","2 min","3-0-1-0"],
+  ["Remada Baixa (Triângulo)","p","Estufar o peito na puxada — não balance o tronco",3,"10–12","90 seg","3-0-1-0"],
+  ["Remada Serrote com Halter","o","Amplitude completa — apoie uma mão no banco",3,"8–12","75 seg","3-0-1-0"],
+  ["Pullover na Polia Alta","p","Isolamento da grande dorsal — braços semi-estendidos",3,"15","75 seg","2-1-1-0"],
+  ["Pulldown Supinado no Cabo","o","Foco no pico de contração do latíssimo",3,"10–12","75 seg","2-1-1-0"]]},
+ {n:"Bíceps",tag:"Terça-feira",tip:"Cotovelos fixos em todos — sem impulso do corpo",tot:"~12 séries",dur:"25–30 min",r:[
+  ["Rosca Direta com Barra EZ","o","Barra W é mais gentil com os punhos — base de massa",3,"8–10","90 seg","3-0-1-1"],
+  ["Rosca Alternada com Halteres","p","Supinar o punho no topo — pico e supinação",3,"12","75 seg","3-0-1-1"],
+  ["Rosca Martelo com Halteres","o","Pegada neutra — braquial e antebraço",3,"10–12","75 seg","3-1-1-0"],
+  ["Flexão/Extensão de Punho","p","Força de pegada e simetria de antebraço",3,"15","60 seg","2-1-2-0"]]}]},
+{n:"Dia C — Pernas / Glúteos",subs:[
+ {n:"Quadríceps",tag:"Quinta-feira",tip:"Aquecimento: bicicleta 5 min + agachamento com peso corporal",tot:"~13 séries",dur:"35–40 min",r:[
+  ["Agachamento Livre com Barra","o","Profundidade abaixo do paralelo — barra alta",4,"5–8","2–3 min","3-1-1-0"],
+  ["Agachamento no Smith","p","Pés um pouco à frente — profundidade controlada",3,"10–12","90 seg","3-0-1-0"],
+  ["Leg Press 45°","o","Pés na largura do quadril — sem travar o joelho",3,"12–15","90 seg","3-0-1-0"],
+  ["Cadeira Extensora","o","Sustente 1 seg no topo — pico de contração",3,"12–15","75 seg","2-1-1-0"]]},
+ {n:"Posteriores",tag:"Quinta-feira",tip:"Controle a descida em todos — fibra posterior é lenta",tot:"~13 séries",dur:"30–35 min",r:[
+  ["Levantamento Terra Romeno (Barra)","o","Barra rente ao corpo — sentir o alongamento no isquio",4,"8–10","2 min","3-0-1-0"],
+  ["Stiff com Halteres","p","Alongamento e conexão glúteo/coxa posterior",3,"10–12","90 seg","3-1-1-0"],
+  ["Mesa Flexora","o","Alongamento da fibra posterior — controle na subida",3,"12","75 seg","3-1-1-0"],
+  ["Cadeira Flexora","p","Pico de contração atrás da coxa — controle a volta",3,"12","75 seg","3-1-1-0"]]},
+ {n:"Glúteos / Adutores",tag:"Quinta-feira",tip:"Ative o glúteo com ponte antes — conexão neuromuscular",tot:"~9 séries",dur:"20–25 min",r:[
+  ["Elevação Pélvica (Hip Thrust)","p","Construção de força e volume — pausa 1 seg no topo",3,"10–12","90 seg","2-1-1-0"],
+  ["Cadeira Abdutora","p","Glúteo médio e lateral da coxa",3,"15","75 seg","2-1-2-0"],
+  ["Cadeira Adutora","p","Parte interna da coxa — movimento controlado",3,"15","75 seg","2-1-2-0"]]},
+ {n:"Panturrilha / Core",tag:"Quinta-feira",tip:"Amplitude total na panturrilha — pausa no topo e embaixo",tot:"~14 séries",dur:"25–30 min",r:[
+  ["Panturrilha em Pé (Smith ou livre)","o","Amplitude total — pausa 1 seg no topo — gastrocnêmio",4,"15–20","60 seg","2-1-2-1"],
+  ["Panturrilha Sentado","p","Músculo sóleo — movimento lento e completo",3,"15","60 seg","2-1-2-1"],
+  ["Prancha Abdominal","p","Abdômen bem contraído — quadril alinhado",3,"45 seg","60 seg","—"],
+  ["Abdominal Supra (Solo)","p","Tire as escápulas do chão e solte o ar no esforço",4,"20","60 seg","2-0-1-0"]]}]},
+{n:"Dia D — Ombros / Core",subs:[
+ {n:"Ombros",tag:"Sexta-feira",tip:"Rotação externa 2×15 com elástico antes de começar",tot:"~17 séries",dur:"45–55 min",r:[
+  ["Desenvolvimento com Barra (frente)","o","Porção anterior — sentado ou em pé",4,"6–8","2 min","3-0-1-0"],
+  ["Desenvolvimento com Halteres","p","Sentado para proteger a lombar — porção anterior",3,"10–12","90 seg","3-0-1-0"],
+  ["Elevação Lateral com Halteres","o","Braços levemente à frente — porção lateral",4,"10–15","75 seg","2-1-2-0"],
+  ["Elevação Frontal com Halteres (alternado)","o","Controle — evite balançar o corpo",3,"10–12","75 seg","2-0-2-0"],
+  ["Crucifixo Inverso (Peck Deck invertido)","o","Deltóide posterior — essencial para postura",3,"12–15","75 seg","2-1-1-0"]]},
+ {n:"Trapézio / Core",tag:"Sexta-feira",tip:"Sem rotação no encolhimento — suba direto para o teto",tot:"~9 séries",dur:"20–25 min",r:[
+  ["Encolhimento com Barra ou Halteres","o","Sem rotação — subir direto para o teto",3,"10–12","75 seg","2-1-1-0"],
+  ["Prancha Lateral Alternada","o","Core engajado — não deixar o quadril cair",3,"30–45 seg","60 seg","—"],
+  ["Abdominal Infra (elevação de pernas)","p","No chão ou banco — controle a descida",3,"20","60 seg","2-0-1-0"]]}]}
+];
+
+let store={};
+try{store=JSON.parse(localStorage.getItem("ficha_pesos")||"{}")}catch(e){}
+function save(){try{localStorage.setItem("ficha_pesos",JSON.stringify(store))}catch(e){}}
+
+let h1="",hd="";
+D.forEach((d,i)=>{
+  h1+=`<button class="t1${i?"":" on"}" onclick="showDay(${i})">${d.n}</button>`;
+  let h2="",hs="";
+  d.subs.forEach((s,j)=>{
+    h2+=`<button class="t2${j?"":" on"}" onclick="showSub(${i},${j})">${s.n}</button>`;
+    let rows=s.r.map((r,k)=>{
+      const key=`${i}-${j}-${k}`,v=(store[key]||"").replace(/"/g,"&quot;");
+      return `<tr><td>${k+1}</td><td><span class="en">${r[0]}<span class="src src-${r[1]}">${r[1]=="o"?"original":"planilha"}</span></span><span class="eo">${r[2]}</span></td><td><span class="pill">${r[3]}</span></td><td class="nc">${r[4]}</td><td class="nc">${r[5]}</td><td><input class="peso${v?" filled":""}" type="text" inputmode="decimal" placeholder="kg" data-k="${key}" value="${v}" aria-label="Peso usado em ${r[0]}"></td><td class="nc">${r[6]}</td></tr>`}).join("");
+    hs+=`<div class="sp${j?"":" on"}"><div class="dh"><div><div class="dtag">${s.tag}</div><div class="dname">${s.n}</div></div><div class="tip">${s.tip}</div></div><div class="tw"><table><thead><tr><th>#</th><th>Exercício</th><th>Séries</th><th>Reps</th><th>Descanso</th><th>Peso (kg)</th><th>Cadência</th></tr></thead><tbody>${rows}</tbody></table></div><div class="foot"><span><b>Volume total:</b> ${s.tot}</span><span><b>Duração estimada:</b> ${s.dur}</span><span><b>Cadência:</b> excêntrico-pausa-concêntrico-pausa (seg)</span><button class="clear" onclick="clearSub(${i},${j})">Limpar pesos desta aba</button></div></div>`;
+  });
+  hd+=`<div class="dp sp${i?"":" on"}" id="d${i}"><div class="tabs2">${h2}</div>${hs}</div>`;
+});
+document.getElementById("t1").innerHTML=h1;
+document.getElementById("days").innerHTML=hd;
+
+document.addEventListener("input",e=>{
+  if(!e.target.classList.contains("peso"))return;
+  const k=e.target.dataset.k,v=e.target.value.trim();
+  if(v)store[k]=v;else delete store[k];
+  e.target.classList.toggle("filled",!!v);
+  save();
+});
+function showDay(i){
+  document.querySelectorAll(".dp").forEach((p,x)=>p.classList.toggle("on",x===i));
+  document.querySelectorAll(".t1").forEach((b,x)=>b.classList.toggle("on",x===i));
+}
+function showSub(i,j){
+  const p=document.getElementById("d"+i);
+  p.querySelectorAll(".sp").forEach((s,x)=>s.classList.toggle("on",x===j));
+  p.querySelectorAll(".t2").forEach((b,x)=>b.classList.toggle("on",x===j));
+}
+function clearSub(i,j){
+  if(!confirm("Apagar os pesos anotados nesta aba?"))return;
+  document.querySelectorAll(`.peso[data-k^="${i}-${j}-"]`).forEach(inp=>{inp.value="";inp.classList.remove("filled");delete store[inp.dataset.k]});
+  save();
 }
 </script>
+</body>
+</html>
